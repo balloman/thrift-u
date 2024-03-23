@@ -1,0 +1,12 @@
+{
+  "name": "thrift-u",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "1.6.2",
+    "nx": "18.1.2"
+  }
+}
