@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
+    "@react-native-picker/picker": "2.6.1",
     "@react-navigation/native": "^6.0.2",
+    "@tanstack/react-form": "^0.16.2",
     "expo": "~50.0.14",
     "expo-font": "~11.10.3",
     "expo-image": "~1.10.6",

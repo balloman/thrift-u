@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Text, type TextProps } from "react-native";
 
-interface StyledTextProps extends TextProps {
+export interface StyledTextProps extends TextProps {
   variant?: "bold" | "regular" | "light" | "medium" | "semibold";
 }
 
