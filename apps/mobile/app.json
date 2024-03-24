@@ -16,8 +16,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.balloman.thriftu"
+      "supportsTablet": false,
+      "bundleIdentifier": "com.balloman.thriftu",
+      "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {

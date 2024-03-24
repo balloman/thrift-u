@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS "apple_id_idx";

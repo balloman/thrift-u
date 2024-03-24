@@ -1,6 +1,7 @@
 import { THEME } from "@/src/components/styles";
+import { useMainStore } from "@/src/stores/store";
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import type { ComponentProps } from "react";
 
 function TabBarIcon({
@@ -20,6 +21,11 @@ function TabBarIcon({
 const sharedRoutes: string[] = [];
 
 export default function TabLayout() {
+  const user = useMainStore((state) => state.userId);
+
+  if (!user) {
+    return <Redirect href={"/login"} />;
+  }
   return (
     <Tabs
       screenOptions={{

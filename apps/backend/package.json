@@ -2,14 +2,23 @@
   "name": "backend",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun run --watch index.ts"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.17",
+    "drizzle-kit": "^0.20.14"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "@trpc/server": "next",
+    "cors": "^2.8.5",
+    "drizzle-orm": "^0.30.4",
+    "jose": "^5.2.3",
+    "postgres": "^3.4.4",
     "zod": "^3.22.4"
   }
 }

@@ -1,14 +1,9 @@
-import { z } from "zod";
-import { publicProcedure, router } from "./trpc";
+import { createHTTPServer } from "@trpc/server/adapters/standalone";
+import cors from "cors";
+import { appRouter } from "./router";
 
-const appRouter = router({
-  userList: publicProcedure.input(z.string()).query(async ({ input }) => {
-    console.log(`Fetching user list for ${input}`);
-    return [
-      { id: 1, name: "Alice" },
-      { id: 2, name: "Bob" },
-    ];
-  }),
-});
-
-export type AppRouter = typeof appRouter;
+createHTTPServer({
+  router: appRouter,
+  middleware: cors(),
+  createContext: () => ({}),
+}).listen(3000);

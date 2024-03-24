@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1711291487164,
+      "tag": "0000_violet_korvac",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1711293489479,
+      "tag": "0001_happy_frog_thor",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711293546648,
+      "tag": "0002_short_killmonger",
+      "breakpoints": true
+    }
+  ]
+}
