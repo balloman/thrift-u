@@ -1,6 +1,8 @@
+import { trpc } from "@/src/api/api";
 import { StyledButton } from "@/src/components/styled-button";
 import { StyledText } from "@/src/components/styled-text";
 import { THEME } from "@/src/components/styles";
+import { useMainStore } from "@/src/stores/store";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { Image } from "expo-image";
 import { useRef, type ComponentProps, type RefObject } from "react";
@@ -68,6 +70,9 @@ function TabBar(props: { tabRef: RefObject<CollapsibleRef>; index: number }) {
 }
 
 function Header() {
+  const uid = useMainStore((state) => state.userId);
+  const user = trpc.getUser.useQuery(uid ?? "", { enabled: !!uid });
+
   return (
     <View style={{ marginVertical: 10 }}>
       <Image
@@ -77,12 +82,14 @@ function Header() {
           height: 100,
           alignSelf: "center",
         }}
-        source={"https://i.redd.it/v0caqchbtn741.jpg"}
+        source={
+          user.data?.profilePictureUrl ?? "https://i.redd.it/v0caqchbtn741.jpg"
+        }
       />
 
       <View style={{ alignItems: "center", gap: 7.5, marginBottom: 15 }}>
         <StyledText variant="semibold" style={{ fontSize: 24 }}>
-          Mike Wazowski
+          {user.data?.name ?? "Loading..."}
         </StyledText>
         <StyledText variant="light" style={{ fontSize: 16 }}>
           Carbon Emissions Saved: 0.0 kg

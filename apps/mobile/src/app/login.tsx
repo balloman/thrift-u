@@ -1,12 +1,15 @@
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Image } from "expo-image";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { View } from "react-native";
 import { trpc } from "../api/api";
 import { StyledText } from "../components/styled-text";
+import { useMainStore } from "../stores/store";
 
 export default function LoginScreen() {
   const loginMutation = trpc.signIn.useMutation();
+  const setUid = useMainStore((state) => state.setUserId);
+  const router = useRouter();
 
   return (
     <View style={{ flex: 1 }}>
@@ -55,8 +58,14 @@ export default function LoginScreen() {
               const result = await loginMutation.mutateAsync({
                 appleToken: identityToken,
               });
-              if (!result.success && result.error === "User not found") {
-                console.log("User not found, redirecting to sign up.");
+              if (result.newUser) {
+                router.navigate({
+                  pathname: "/create-profile",
+                  params: { uid: result.user.id },
+                });
+              } else {
+                setUid(result.user.id);
+                router.replace("/(tabs)/(home)/");
               }
             } catch (e) {
               // @ts-expect-error - TypeScript doesn't know about the code property
