@@ -1,9 +1,34 @@
 import { StyledButton } from "@/src/components/styled-button";
 import { StyledText } from "@/src/components/styled-text";
 import { ScrollView, View } from "react-native";
-import { ListingSelectInput } from "./_components/listing-select-input";
+import {
+  ListingSelectInput,
+  type SelectItem,
+} from "./_components/listing-select-input";
 import { ListingTextInput } from "./_components/listing-text-input";
 import { PhotoInput } from "./_components/photo-input";
+
+const clothingTypes: SelectItem[] = [
+  { label: "Shirt", value: "shirt" },
+  { label: "Pants", value: "pants" },
+  { label: "Shoes", value: "shoes" },
+  { label: "Accessories", value: "accessories" },
+  { label: "Outerwear", value: "outerwear" },
+  { label: "Dresses", value: "dresses" },
+  { label: "Skirts", value: "skirts" },
+  { label: "Suits", value: "suits" },
+  { label: "Activewear", value: "activewear" },
+  { label: "Other", value: "other" },
+];
+
+const years: SelectItem[] = Array(100)
+  .fill(0)
+  .map((_, i) => {
+    return {
+      label: (new Date().getFullYear() - i).toString(),
+      value: (new Date().getFullYear() - i).toString(),
+    };
+  });
 
 function Header() {
   return (
@@ -70,13 +95,14 @@ export default function PostScreen() {
             maxLength={3}
             autoCorrect={false}
           />
-          <ListingSelectInput />
+          <ListingSelectInput label="Category" items={clothingTypes} />
           <ListingTextInput
             label="Price"
             placeholder="Enter price in dollars"
             inputMode="numeric"
             returnKeyType="done"
           />
+          <ListingSelectInput label="Year Acquired" items={years} />
           <ListingTextInput
             label="Description"
             placeholder="Really sell it!"

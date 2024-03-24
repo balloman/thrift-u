@@ -4,12 +4,14 @@ export default function HomeLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false,
         contentStyle: { backgroundColor: "white" },
       }}
     >
-      <Stack.Screen name="index" />
-      <Stack.Screen name="post" options={{ presentation: "modal" }} />
+      <Stack.Screen name="index" options={{ headerTitle: "Home" }} />
+      <Stack.Screen
+        name="post"
+        options={{ presentation: "modal", headerShown: false }}
+      />
     </Stack>
   );
 }

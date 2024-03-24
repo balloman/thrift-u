@@ -1,28 +1,18 @@
 import RNPickerSelect from "react-native-picker-select";
 import { ListingBase } from "./listing-base";
 
-interface Category {
+export interface SelectItem {
   label: string;
   value: string;
 }
 
-const items: Category[] = [
-  { label: "Shirt", value: "shirt" },
-  { label: "Pants", value: "pants" },
-  { label: "Shoes", value: "shoes" },
-  { label: "Accessories", value: "accessories" },
-  { label: "Outerwear", value: "outerwear" },
-  { label: "Dresses", value: "dresses" },
-  { label: "Skirts", value: "skirts" },
-  { label: "Suits", value: "suits" },
-  { label: "Activewear", value: "activewear" },
-  { label: "Other", value: "other" },
-];
-
-export function ListingSelectInput() {
+export function ListingSelectInput(props: {
+  items: SelectItem[];
+  label: string;
+}) {
   return (
-    <ListingBase label="Category">
-      <RNPickerSelect items={items} onValueChange={console.log} />
+    <ListingBase label={props.label}>
+      <RNPickerSelect items={props.items} onValueChange={console.log} />
     </ListingBase>
   );
 }

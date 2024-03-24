@@ -3,10 +3,9 @@ import { StyledText } from "@/src/components/styled-text";
 import { THEME } from "@/src/components/styles";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { Image } from "expo-image";
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 import { View, useWindowDimensions } from "react-native";
 import {
-  SceneMap,
   TabView,
   type NavigationState,
   type SceneRendererProps,
@@ -28,11 +27,20 @@ const sampleItems: ProfileItemProps[] = Array<ProfileItemProps>(30).fill({
   title: "Item Title",
 });
 
-const renderScene = SceneMap({
-  listings: () => <ProfileItemList items={sampleItems} />,
-  purchases: () => <ProfileItemList items={sampleItems} />,
-  sales: () => <ProfileItemList items={sampleItems} />,
-});
+const renderScene: ComponentProps<typeof TabView>["renderScene"] = ({
+  route,
+}) => {
+  switch (route.key) {
+    case "listings":
+      return <ProfileItemList items={sampleItems} />;
+    case "purchases":
+      return <ProfileItemList items={sampleItems} />;
+    case "sales":
+      return <ProfileItemList items={sampleItems} />;
+    default:
+      return null;
+  }
+};
 
 function TabBar(
   props: SceneRendererProps & {

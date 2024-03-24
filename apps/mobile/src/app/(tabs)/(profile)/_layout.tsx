@@ -1,5 +1,13 @@
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 
 export default function ProfileLayout() {
-  return <Slot />;
+  return (
+    <Stack
+      screenOptions={{
+        contentStyle: { backgroundColor: "white" },
+      }}
+    >
+      <Stack.Screen name="profile" options={{ headerTitle: "Profile" }} />
+    </Stack>
+  );
 }

@@ -1,6 +1,6 @@
 import { StyledText } from "@/src/components/styled-text";
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
 
 export interface ProfileItemProps {
@@ -17,20 +17,20 @@ export function ProfileItem({ title, image, price }: ProfileItemProps) {
     <View
       style={{ marginBottom: 10, alignSelf: "center", marginHorizontal: 10 }}
     >
-      <TouchableOpacity
-        onPress={() => router.push("/(tabs)/(profile)/listing")}
-      >
-        <Image
-          source={image}
-          style={{
-            width: "100%",
-            aspectRatio: 1,
-            borderRadius: 15,
-            alignSelf: "center",
-            marginVertical: 10,
-          }}
-        />
-      </TouchableOpacity>
+      <Link href={"/(tabs)/(profile)/listing"} push asChild>
+        <TouchableOpacity>
+          <Image
+            source={image}
+            style={{
+              width: "100%",
+              aspectRatio: 1,
+              borderRadius: 15,
+              alignSelf: "center",
+              marginVertical: 10,
+            }}
+          />
+        </TouchableOpacity>
+      </Link>
 
       <StyledText variant="medium" style={{ fontSize: 16 }}>
         {title}

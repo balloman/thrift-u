@@ -1,5 +1,10 @@
-import { TextInput } from "react-native";
+import { TextInput, type TextInputProps } from "react-native";
 
-export function StyledTextInput() {
-  return <TextInput />;
+export function StyledTextInput(props: TextInputProps) {
+  return (
+    <TextInput
+      {...props}
+      style={[{ fontFamily: "PlusJakartaSans-Regular" }, props.style]}
+    />
+  );
 }

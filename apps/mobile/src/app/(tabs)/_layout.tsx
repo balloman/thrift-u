@@ -17,7 +17,7 @@ function TabBarIcon({
   return <Ionicons name={name} color={color} size={size} />;
 }
 
-const sharedRoutes = ["listing"];
+const sharedRoutes: string[] = [];
 
 export default function TabLayout() {
   return (
@@ -38,6 +38,7 @@ export default function TabLayout() {
         headerTitleStyle: {
           fontFamily: "PlusJakartaSans-Medium",
         },
+        headerShown: false,
       }}
       sceneContainerStyle={{
         backgroundColor: "white",
@@ -59,7 +60,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="inbox"
+        name="(inbox)"
         options={{
           title: "Inbox",
           tabBarIcon: ({ color, focused, size }) => (
