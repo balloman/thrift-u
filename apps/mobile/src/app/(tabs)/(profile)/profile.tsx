@@ -64,9 +64,9 @@ export default function ProfileScreen() {
     <View style={{ marginTop: 20, gap: 15, flex: 1 }}>
       <Image
         style={{
-          borderRadius: 64,
-          width: 128,
-          height: 128,
+          borderRadius: 50,
+          width: 100,
+          height: 100,
           alignSelf: "center",
         }}
         source={"https://i.redd.it/v0caqchbtn741.jpg"}
@@ -90,13 +90,19 @@ export default function ProfileScreen() {
         }}
       >
         <StyledButton
-          style={{ flex: 1, backgroundColor: THEME.colors.light.outline }}
+          style={{
+            flex: 1,
+            backgroundColor: THEME.colors.light.outline,
+            paddingVertical: 10,
+          }}
         >
           Edit Profile
         </StyledButton>
-        <StyledButton style={{ flex: 1 }}>Settings</StyledButton>
+        <StyledButton style={{ flex: 1, paddingVertical: 10 }}>
+          Settings
+        </StyledButton>
       </View>
-      <View style={{ flex: 1, marginHorizontal: 20 }}>
+      <View style={{ flex: 1, marginHorizontal: 15 }}>
         <TabView
           navigationState={{ index, routes }}
           onIndexChange={setIndex}

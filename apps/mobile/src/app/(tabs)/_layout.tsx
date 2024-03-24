@@ -17,6 +17,8 @@ function TabBarIcon({
   return <Ionicons name={name} color={color} size={size} />;
 }
 
+const sharedRoutes = ["listing"];
+
 export default function TabLayout() {
   return (
     <Tabs
@@ -84,6 +86,33 @@ export default function TabLayout() {
           ),
         }}
       />
+      {sharedRoutes.map((route) => (
+        <Tabs.Screen
+          key={route}
+          name={`(home)/${route}`}
+          options={{
+            href: null,
+          }}
+        />
+      ))}
+      {sharedRoutes.map((route) => (
+        <Tabs.Screen
+          key={route}
+          name={`(profile)/${route}`}
+          options={{
+            href: null,
+          }}
+        />
+      ))}
+      {sharedRoutes.map((route) => (
+        <Tabs.Screen
+          key={route}
+          name={`(inbox)/${route}`}
+          options={{
+            href: null,
+          }}
+        />
+      ))}
     </Tabs>
   );
 }
