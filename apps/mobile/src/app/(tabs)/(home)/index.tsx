@@ -1,17 +1,23 @@
+import { trpc } from "@/src/api/api";
 import { Fab } from "@/src/components/fab";
-import { StyledText } from "@/src/components/styled-text";
+import { FlashList } from "@shopify/flash-list";
 import { Link } from "expo-router";
 import { View } from "react-native";
 import { ListingCard } from "./_components/listing-card";
 
 export default function HomeScreen() {
+  const listingQuery = trpc.getAllListings.useQuery();
+
   return (
-    <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
-      <StyledText>Tab [Home|Settings]</StyledText>
-      <View style={{ gap: 10 }}>
-        <ListingCard />
-        <ListingCard />
-      </View>
+    <View style={{ flex: 1 }}>
+      <FlashList
+        data={listingQuery.data ?? []}
+        renderItem={ListingCard}
+        refreshing={listingQuery.isLoading}
+        onRefresh={listingQuery.refetch}
+        numColumns={2}
+        estimatedItemSize={225}
+      />
       <Link asChild href={"/post"}>
         <Fab />
       </Link>

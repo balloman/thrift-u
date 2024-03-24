@@ -123,6 +123,10 @@ function Header() {
 
 export default function ProfileScreen() {
   const ref = useRef<CollapsibleRef>(null);
+  const uid = useMainStore((state) => state.userId);
+  const userListings = trpc.getListingForUser.useQuery(uid ?? "", {
+    enabled: !!uid,
+  });
 
   return (
     <View style={{ gap: 15, flex: 1 }}>
@@ -138,13 +142,13 @@ export default function ProfileScreen() {
       >
         <Tabs.Tab label={"Listings"} name="listings">
           <Tabs.FlashList
-            data={sampleItems}
+            data={userListings.data ?? []}
             renderItem={({ item }) => <ProfileItem {...item} />}
             estimatedItemSize={200}
             numColumns={2}
           />
         </Tabs.Tab>
-        <Tabs.Tab label={"Purchases"} name="purchases">
+        {/* <Tabs.Tab label={"Purchases"} name="purchases">
           <Tabs.FlashList
             data={sampleItems}
             renderItem={({ item }) => <ProfileItem {...item} />}
@@ -159,7 +163,7 @@ export default function ProfileScreen() {
             estimatedItemSize={200}
             numColumns={2}
           />
-        </Tabs.Tab>
+        </Tabs.Tab> */}
       </Tabs.Container>
     </View>
   );

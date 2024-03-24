@@ -1,7 +1,8 @@
+import { trpc } from "@/src/api/api";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, View, type ViewProps } from "react-native";
 import { ListingDetail } from "../listing-detail";
 import { StyledButton } from "../styled-button";
@@ -19,6 +20,12 @@ function ListingPageSection(props: ViewProps) {
 }
 
 export default function ListingPage() {
+  const params = useLocalSearchParams<{ id: string }>();
+  const { data: item } = trpc.getListing.useQuery(params.id);
+  const user = trpc.getUser.useQuery(item?.postedBy ?? "", {
+    enabled: !!item?.postedBy,
+  });
+
   return (
     <View>
       <ScrollView>
@@ -36,25 +43,27 @@ export default function ListingPage() {
         <Image
           style={{ width: "100%", aspectRatio: 1 }}
           contentFit="contain"
-          source={
-            "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3f934614-2c85-4b2a-be8d-a5058509f054/solo-swoosh-mens-fleece-pullover-hoodie-qnqWb8.png"
-          }
+          source={item?.image}
         />
         <ListingPageSection style={{ gap: 10, marginTop: 20 }}>
           <StyledText variant="bold" style={{ fontSize: 22 }}>
-            Nike Hoodie
+            {item?.title}
           </StyledText>
-          <StyledText style={{ fontSize: 16 }}>$100</StyledText>
+          <StyledText style={{ fontSize: 16 }}>{`$${item?.price}`}</StyledText>
           <StyledText style={{ fontSize: 18, marginTop: 10 }} variant="bold">
             Details
           </StyledText>
         </ListingPageSection>
         <ListingPageSection>
-          <ListingDetail icon="resize-outline" label="Size" value="M" />
+          <ListingDetail
+            icon="resize-outline"
+            label="Size"
+            value={item?.size ?? ""}
+          />
           <ListingDetail
             icon="time-outline"
             label="Vintage From"
-            value="2022"
+            value={item?.year.toFixed(0) ?? "2024"}
           />
         </ListingPageSection>
         <ListingPageSection>
@@ -65,11 +74,14 @@ export default function ListingPage() {
             <Image
               style={{ height: 48, aspectRatio: 1, borderRadius: 30 }}
               source={
-                "https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
+                user.data?.profilePictureUrl ??
+                "https://i.redd.it/v0caqchbtn741.jpg"
               }
             />
             <View style={{ justifyContent: "center" }}>
-              <StyledText style={{ fontSize: 16 }}>John D</StyledText>
+              <StyledText style={{ fontSize: 16 }}>
+                {user.data?.name}
+              </StyledText>
             </View>
           </View>
         </ListingPageSection>
@@ -78,9 +90,7 @@ export default function ListingPage() {
             Description
           </StyledText>
           <StyledTextInput editable={false} multiline scrollEnabled={false}>
-            {
-              "This is just a short description for this item to use for testing purposes. I could have used lorem ipsum, but I was too lazy to copy and paste it when I was writing this and it was also like 1 in the morning"
-            }
+            {item?.description}
           </StyledTextInput>
         </ListingPageSection>
 

@@ -1,21 +1,14 @@
-import { PRIVATE_KEY } from "@/private-key";
 import { Ionicons } from "@expo/vector-icons";
-import { createClient } from "@supabase/supabase-js";
 import { decode } from "base64-arraybuffer";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { trpc } from "../api/api";
+import { supabase, trpc } from "../api/api";
 import { THEME } from "../components/styles";
 import { useMainStore } from "../stores/store";
 import { ListingTextInput } from "./(tabs)/(home)/_components/listing-text-input";
-
-const supabase = createClient(
-  "https://npjryurjfclrplkzwnsm.supabase.co",
-  PRIVATE_KEY,
-);
 
 async function uploadImage(uid: string, base64?: string) {
   if (!base64) {

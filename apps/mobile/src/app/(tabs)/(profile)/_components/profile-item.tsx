@@ -1,6 +1,7 @@
 import { StyledText } from "@/src/components/styled-text";
+import type { Listing } from "backend/schema";
 import { Image } from "expo-image";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
 
 export interface ProfileItemProps {
@@ -10,14 +11,15 @@ export interface ProfileItemProps {
   isSold?: boolean;
 }
 
-export function ProfileItem({ title, image, price }: ProfileItemProps) {
-  const router = useRouter();
-
+export function ProfileItem({ id, title, image, price }: Listing) {
   return (
     <View
       style={{ marginBottom: 10, alignSelf: "center", marginHorizontal: 10 }}
     >
-      <Link href={"/(tabs)/(profile)/listing"} push asChild>
+      <Link
+        href={{ pathname: "/(tabs)/(profile)/listing", params: { id } }}
+        asChild
+      >
         <TouchableOpacity>
           <Image
             source={image}

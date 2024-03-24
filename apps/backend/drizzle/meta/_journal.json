@@ -29,6 +29,20 @@
       "when": 1711296877420,
       "tag": "0003_chunky_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1711298615497,
+      "tag": "0004_ancient_gamora",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1711304106510,
+      "tag": "0005_certain_peter_quill",
+      "breakpoints": true
     }
   ]
 }

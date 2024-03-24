@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import * as auth from "./authentication";
+import * as listing from "./listing";
 import { publicProcedure, router } from "./trpc";
 
 export const appRouter = router({
@@ -59,6 +60,46 @@ export const appRouter = router({
         profilePictureUrl: input.profilePictureUrl,
       });
       return user;
+    }),
+  postListing: publicProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        price: z.number(),
+        image: z.string(),
+        size: z.string(),
+        category: z.string(),
+        description: z.string(),
+        year: z.number(),
+        uid: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const newListing = await listing.postListing({
+        title: input.title,
+        price: input.price.toString(),
+        image: input.image,
+        size: input.size,
+        category: input.category,
+        description: input.description,
+        year: input.year,
+        postedBy: input.uid,
+      });
+      return newListing;
+    }),
+  getAllListings: publicProcedure.query(async () => {
+    const listings = await listing.getAllListings();
+    return listings;
+  }),
+  getListing: publicProcedure.input(z.string()).query(async ({ input }) => {
+    const individual = await listing.getListingById(input);
+    return individual;
+  }),
+  getListingForUser: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      const listings = await listing.getListingsForUser(input);
+      return listings;
     }),
 });
 

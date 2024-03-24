@@ -4,15 +4,19 @@ import { View } from "react-native";
 
 export interface ListingBaseProps {
   label: string;
+  error?: string;
   children: React.ReactNode;
 }
 
-export function ListingBase({ label, children }: ListingBaseProps) {
+export function ListingBase({ label, children, error }: ListingBaseProps) {
   return (
-    <View style={{ gap: 10 }}>
-      <StyledText variant="medium" style={{ fontSize: 16 }}>
-        {label}
-      </StyledText>
+    <View>
+      <View style={{ marginBottom: 10 }}>
+        <StyledText variant="medium" style={{ fontSize: 16 }}>
+          {label}
+        </StyledText>
+      </View>
+
       <View
         style={{
           backgroundColor: THEME.colors.light.outline,
@@ -28,6 +32,16 @@ export function ListingBase({ label, children }: ListingBaseProps) {
       >
         {children}
       </View>
+      {error && (
+        <View>
+          <StyledText
+            variant="light"
+            style={{ fontSize: 12, marginTop: 5, color: "red" }}
+          >
+            {error}
+          </StyledText>
+        </View>
+      )}
     </View>
   );
 }

@@ -1,20 +1,32 @@
 import { StyledText } from "@/src/components/styled-text";
+import type { Listing } from "backend/schema";
 import { Image } from "expo-image";
-import { View } from "react-native";
+import { Link } from "expo-router";
+import { TouchableOpacity, View } from "react-native";
 
-export function ListingCard() {
+export function ListingCard({ item }: { item: Listing }) {
   return (
-    <View style={{ gap: 5 }}>
-      <Image
-        source={{
-          uri: "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3f934614-2c85-4b2a-be8d-a5058509f054/solo-swoosh-mens-fleece-pullover-hoodie-qnqWb8.png",
+    <View style={{ gap: 5, marginHorizontal: 10, marginVertical: 10 }}>
+      <Link
+        asChild
+        href={{
+          params: { id: item.id },
+          pathname: "/(tabs)/(home)/listing",
         }}
-        contentFit="cover"
-        style={{ width: 200, height: 200, borderRadius: 10 }}
-      />
-      <StyledText variant="semibold">Nike Hoodie</StyledText>
-      <StyledText variant="light">M/Gray</StyledText>
-      <StyledText variant="light">$40</StyledText>
+      >
+        <TouchableOpacity>
+          <Image
+            source={{
+              uri: item.image,
+            }}
+            contentFit="contain"
+            style={{ width: "100%", aspectRatio: 1, borderRadius: 10 }}
+          />
+        </TouchableOpacity>
+      </Link>
+      <StyledText variant="semibold">{item.title}</StyledText>
+      <StyledText variant="light">{item.size}</StyledText>
+      <StyledText variant="light">{`$${item.price}`}</StyledText>
     </View>
   );
 }

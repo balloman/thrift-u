@@ -16,7 +16,7 @@ export function ListingTextInput({
   ...props
 }: ListingTextInputProps) {
   return (
-    <ListingBase label={label}>
+    <ListingBase label={label} error={props.error}>
       <View
         style={{
           flexDirection: "row",
