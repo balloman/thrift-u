@@ -7,7 +7,10 @@ export default function ProfileLayout() {
         contentStyle: { backgroundColor: "white" },
       }}
     >
-      <Stack.Screen name="profile" options={{ headerTitle: "Profile" }} />
+      <Stack.Screen
+        name="profile"
+        options={{ headerShown: true, headerTitle: "Profile" }}
+      />
     </Stack>
   );
 }

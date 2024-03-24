@@ -3,14 +3,15 @@ import { StyledText } from "@/src/components/styled-text";
 import { THEME } from "@/src/components/styles";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { Image } from "expo-image";
-import { useState, type ComponentProps } from "react";
-import { View, useWindowDimensions } from "react-native";
+import { useRef, type ComponentProps, type RefObject } from "react";
+import { View } from "react-native";
 import {
-  TabView,
-  type NavigationState,
-  type SceneRendererProps,
-} from "react-native-tab-view";
-import type { ProfileItemProps } from "./_components/profile-item";
+  MaterialTabBar,
+  Tabs,
+  type CollapsibleRef,
+} from "react-native-collapsible-tab-view";
+import type { TabView } from "react-native-tab-view";
+import { ProfileItem, type ProfileItemProps } from "./_components/profile-item";
 import { ProfileItemList } from "./_components/profile-item-list";
 
 const routes = [
@@ -42,34 +43,33 @@ const renderScene: ComponentProps<typeof TabView>["renderScene"] = ({
   }
 };
 
-function TabBar(
-  props: SceneRendererProps & {
-    navigationState: NavigationState<{ key: string; title: string }>;
-  },
-) {
+function TabBar(props: { tabRef: RefObject<CollapsibleRef>; index: number }) {
   return (
     <SegmentedControl
       values={routeTitles}
-      selectedIndex={props.navigationState.index}
+      selectedIndex={props.index}
       onChange={(e) => {
-        console.log(e.nativeEvent.selectedSegmentIndex);
-        return props.jumpTo(routes[e.nativeEvent.selectedSegmentIndex].key);
+        props.tabRef.current?.setIndex(e.nativeEvent.selectedSegmentIndex);
       }}
-      style={{ marginBottom: 20 }}
-      activeFontStyle={{ fontFamily: "PlusJakartaSans-Medium", fontSize: 16 }}
-      fontStyle={{ fontFamily: "PlusJakartaSans-Medium", fontSize: 16 }}
+      activeFontStyle={{
+        fontFamily: "PlusJakartaSans-Medium",
+        fontSize: 16,
+        color: THEME.colors.light.onBackground,
+      }}
+      fontStyle={{
+        fontFamily: "PlusJakartaSans-Medium",
+        fontSize: 16,
+        color: THEME.colors.light.accent,
+      }}
       appearance="light"
       backgroundColor={THEME.colors.light.outline}
     />
   );
 }
 
-export default function ProfileScreen() {
-  const layout = useWindowDimensions();
-  const [index, setIndex] = useState(0);
-
+function Header() {
   return (
-    <View style={{ marginTop: 20, gap: 15, flex: 1 }}>
+    <View style={{ marginVertical: 10 }}>
       <Image
         style={{
           borderRadius: 50,
@@ -80,7 +80,7 @@ export default function ProfileScreen() {
         source={"https://i.redd.it/v0caqchbtn741.jpg"}
       />
 
-      <View style={{ alignItems: "center", gap: 7.5 }}>
+      <View style={{ alignItems: "center", gap: 7.5, marginBottom: 15 }}>
         <StyledText variant="semibold" style={{ fontSize: 24 }}>
           Mike Wazowski
         </StyledText>
@@ -110,15 +110,50 @@ export default function ProfileScreen() {
           Settings
         </StyledButton>
       </View>
-      <View style={{ flex: 1, marginHorizontal: 15 }}>
-        <TabView
-          navigationState={{ index, routes }}
-          onIndexChange={setIndex}
-          initialLayout={{ width: layout.width }}
-          renderScene={renderScene}
-          renderTabBar={TabBar}
-        />
-      </View>
+    </View>
+  );
+}
+
+export default function ProfileScreen() {
+  const ref = useRef<CollapsibleRef>(null);
+
+  return (
+    <View style={{ gap: 15, flex: 1 }}>
+      <Tabs.Container
+        renderHeader={Header}
+        renderTabBar={(props) => (
+          <MaterialTabBar
+            {...props}
+            indicatorStyle={{ backgroundColor: THEME.colors.light.accent }}
+          />
+        )}
+        ref={ref}
+      >
+        <Tabs.Tab label={"Listings"} name="listings">
+          <Tabs.FlashList
+            data={sampleItems}
+            renderItem={({ item }) => <ProfileItem {...item} />}
+            estimatedItemSize={200}
+            numColumns={2}
+          />
+        </Tabs.Tab>
+        <Tabs.Tab label={"Purchases"} name="purchases">
+          <Tabs.FlashList
+            data={sampleItems}
+            renderItem={({ item }) => <ProfileItem {...item} />}
+            estimatedItemSize={200}
+            numColumns={2}
+          />
+        </Tabs.Tab>
+        <Tabs.Tab label={"Sales"} name="sales">
+          <Tabs.FlashList
+            data={sampleItems}
+            renderItem={({ item }) => <ProfileItem {...item} />}
+            estimatedItemSize={200}
+            numColumns={2}
+          />
+        </Tabs.Tab>
+      </Tabs.Container>
     </View>
   );
 }
