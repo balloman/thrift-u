@@ -142,7 +142,8 @@ export default function PostScreen() {
         },
         {
           onSettled: () => {
-            utils.invalidate();
+            utils.getAllListings.invalidate();
+            utils.getListingForUser.invalidate();
           },
         },
       );

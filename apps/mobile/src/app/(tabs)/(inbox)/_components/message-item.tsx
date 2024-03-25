@@ -23,11 +23,11 @@ export function MessageItem() {
           Olivia Smith
         </StyledText>
         <StyledText style={{ color: THEME.colors.light.accent }}>
-          I'm actually taking the CalTrain
+          I'm interested in your item
         </StyledText>
       </View>
       <View style={{ justifyContent: "center" }}>
-        <StyledText>9/2/22</StyledText>
+        <StyledText>A few hours ago</StyledText>
       </View>
     </View>
   );

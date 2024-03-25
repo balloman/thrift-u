@@ -6,4 +6,4 @@ createHTTPServer({
   router: appRouter,
   middleware: cors(),
   createContext: () => ({}),
-}).listen(3000);
+}).listen(process.env.PORT || 3000);

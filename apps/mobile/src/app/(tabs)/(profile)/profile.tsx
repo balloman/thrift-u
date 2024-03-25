@@ -5,6 +5,7 @@ import { THEME } from "@/src/components/styles";
 import { useMainStore } from "@/src/stores/store";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { Image } from "expo-image";
+import * as WebBrowser from "expo-web-browser";
 import { useRef, type ComponentProps, type RefObject } from "react";
 import { View } from "react-native";
 import {
@@ -72,6 +73,9 @@ function TabBar(props: { tabRef: RefObject<CollapsibleRef>; index: number }) {
 function Header() {
   const uid = useMainStore((state) => state.userId);
   const user = trpc.getUser.useQuery(uid ?? "", { enabled: !!uid });
+  const userListings = trpc.getListingForUser.useQuery(uid ?? "", {
+    enabled: !!uid,
+  });
 
   return (
     <View style={{ marginVertical: 10 }}>
@@ -91,8 +95,16 @@ function Header() {
         <StyledText variant="semibold" style={{ fontSize: 24 }}>
           {user.data?.name ?? "Loading..."}
         </StyledText>
-        <StyledText variant="light" style={{ fontSize: 16 }}>
-          Carbon Emissions Saved: 0.0 kg
+        <StyledText
+          variant="light"
+          style={{ fontSize: 16 }}
+          onLongPress={() =>
+            WebBrowser.openBrowserAsync(
+              "https://www.carbonfact.com/blog/dress#:~:text=The%20average%20carbon%20footprint%20of,in%20India%20(41%20kgCO2e)",
+            )
+          }
+        >
+          Carbon Emissions Saved: {(userListings.data?.length ?? 0) * 22} kg
         </StyledText>
       </View>
       <View
@@ -143,6 +155,8 @@ export default function ProfileScreen() {
         <Tabs.Tab label={"Listings"} name="listings">
           <Tabs.FlashList
             data={userListings.data ?? []}
+            refreshing={userListings.isLoading}
+            onRefresh={userListings.refetch}
             renderItem={({ item }) => <ProfileItem {...item} />}
             estimatedItemSize={200}
             numColumns={2}
